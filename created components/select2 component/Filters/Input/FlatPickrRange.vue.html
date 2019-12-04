@@ -1,0 +1,21 @@
+<div :class="inputgrandparentclasses">
+        <label :class="inputlabelclasses">{{label}}</label>
+        <div :class="inputparentclasses">            
+            <div class="input-group">
+                <flat-pickr
+                    :config="config"              
+                    :placeholder="placeholderFrom"
+                    :class="inputclasses"
+                    v-model="dummyFrom"
+                    @input="onInput">
+                </flat-pickr>       
+                <flat-pickr
+                    :config="config"              
+                    :placeholder="placeholderTo"
+                    :class="inputclasses"
+                    v-model="dummyTo"
+                    @input="onInput">
+                </flat-pickr>       
+            </div>     
+        </div>
+    </div>

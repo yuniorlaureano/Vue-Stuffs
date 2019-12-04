@@ -1,0 +1,18 @@
+<div>
+    <form>
+        <component
+            v-for="(field, index) in schema"
+            :is="field.element"
+            v-bind="field"
+            v-model="schemaValues[field.name]"
+            :ref="field.name"
+            :key="index"
+        />   
+        <div class="row" style="text-align: right;">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-outline-danger" @click="clear"><i class="fa fa-times" aria-hidden="true"></i> Limpiar</button>
+                <button type="button" class="btn btn-outline-primary" @click="search"><i class="fa fa-filter" aria-hidden="true"></i> Filtrar</button>
+            </div>
+        </div>               
+    </form>
+</div>

@@ -1,0 +1,13 @@
+<div :class="inputgrandparentclasses">
+    <label :class="inputlabelclasses">{{label}}</label>
+    <div :class="inputparentclasses">
+        <input
+            :type="type"
+            :name="name"
+            :placeholder="placeholder"
+            :class="inputclasses"
+            v-model="dummy"
+            @input="$emit('input', $event.target.value)"
+        />
+    </div>
+</div>

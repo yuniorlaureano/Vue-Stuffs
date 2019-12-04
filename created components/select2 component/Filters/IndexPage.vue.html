@@ -1,0 +1,21 @@
+<section id="root">
+  <div class="accordion" id="requestFilterAccordion">
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="headingRequestFilters">
+        <h2 class="mb-0">
+          <a class="btn cursor-pointer" data-toggle="collapse" data-target="#collapseRequestFilters"
+            aria-controls="collapseRequestFilters">Filtros</a>
+        </h2>
+      </div>
+      <div id="collapseRequestFilters" class="collapse" aria-labelledby="headingRequestFilters" data-parent="#requestFilterAccordion">
+        <div class="card-body row">
+          <div class="form-group col-lg-12">
+              <filter-container :schema="schema" :schemaValues="schemaValues" @onFilter="onFilter"/>
+          </div>            
+        </div>
+      </div>
+    </div>
+  </div>
+  <v-datatable ref="requests-datatable" :ajax-url="dataTableConfig.ajaxUrl" :excel-url="dataTableConfig.excelUrl"
+    :filename="dataTableConfig.filename" :columns="dataTableConfig.columns" :ajax-data="dataTableConfig.ajaxData"></v-datatable>
+</section>

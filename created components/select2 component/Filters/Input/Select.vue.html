@@ -1,0 +1,13 @@
+<div :class="inputgrandparentclasses">
+    <label :class="inputlabelclasses">{{label}}</label>
+    <div :class="inputparentclasses">
+        <select :name="name" 
+                :multiple="multiple" 
+                :class="inputclasses"
+                v-model="dummy"
+                @input="$emit('input', $event.target.value)">
+            <option v-for="(op) in optionsModel" :value="op.id" :key="op.id">{{op.value}}</option>    
+        </select>
+    </div>
+    
+</div>

@@ -1,0 +1,21 @@
+<div :class="inputgrandparentclasses">
+    <label :class="inputlabelclasses">{{label}}</label>
+    <div :class="inputparentclasses">        
+        <div class="input-group">
+            <input
+                    :type="type"
+                    :placeholder="placeholderFrom"
+                    :class="inputclasses"
+                    v-model="dummyFrom"
+                    @input="onInput"
+                />       
+                <input
+                    :type="type"
+                    :placeholder="placeholderTo"
+                    v-model="dummyTo"
+                    :class="inputclasses"
+                    @input="onInput"
+                />
+            </div>     
+    </div>
+</div>

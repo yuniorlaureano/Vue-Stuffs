@@ -1,0 +1,341 @@
+<!-- TODO: Usar los resources para las traducciones -->
+<section id="root">
+  <div class="button-container d-flex flex-row-reverse">
+    <v-button v-show="request.isCompleted" text="Imprimir" :button-class="{ 'btn': true, 'btn-outline-primary': true }"
+      :is-loading="isPrinting" @click="printRequest" />
+  </div>
+  <div class="accordion mt-2" id="mainAccordion">
+    <!-- INFORMACIÓN BÁSICA -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="basic-information-heading" data-toggle="collapse"
+        data-target="#basic-information-collapse" aria-expanded="true" aria-controls="basic-information-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Información Básica</button>
+        </h2>
+      </div>
+      <div id="basic-information-collapse" class="collapse show" aria-labelledby="basic-information-heading"
+        data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="form-group col-lg-3">
+            <label>No. de Solicitud</label>
+            <input type="text" class="form-control" :value="request.code" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Tipo de Solicitud</label>
+            <input type="text" class="form-control" :value="request.requestType" readonly />
+          </div>
+          <div class="form-group col-lg-6">
+            <label>Organismo</label>
+            <input type="text" class="form-control" :value="request.organismName" readonly />
+          </div>
+          <div class="form-group col-lg-6">
+            <label>Formulario</label>
+            <input type="text" class="form-control" :value="request.formName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Puerto de Salida</label>
+            <input type="text" class="form-control" :value="request.departurePortName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Puerto de Entrada</label>
+            <input type="text" class="form-control" :value="request.entryPortName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>País de Procedencia</label>
+            <input type="text" class="form-control" :value="request.originCountryName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Fecha de Llegada</label>
+            <input type="text" class="form-control" :value="request.arrivalDate | formatDate" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Tipo de Transporte</label>
+            <input type="text" class="form-control" :value="request.transportTypeName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Medio de Transporte</label>
+            <input type="text" class="form-control" :value="request.transportModeName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>No. Doc. de Embarque</label>
+            <input type="text" class="form-control" :value="request.shippingDocumentNumber" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Cantidad de Contenedores</label>
+            <input type="text" class="form-control" :value="request.containersCount" readonly />
+          </div>
+          <div class="form-group col-lg-6">
+            <label>No. de Certificado</label>
+            <input type="text" class="form-control" :value="request.certificateNumber" readonly />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPORTADOR -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="importer-heading" data-toggle="collapse"
+        data-target="#importer-collapse" aria-expanded="false" aria-controls="importer-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Importador</button>
+        </h2>
+      </div>
+      <div id="importer-collapse" class="collapse" aria-labelledby="importer-heading" data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="form-group col-lg-6">
+            <label>Nombre</label>
+            <input type="text" class="form-control" :value="request.importer.name" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>Tipo de Documento</label>
+            <input type="text" class="form-control" :value="request.importer.documentTypeName" readonly />
+          </div>
+          <div class="form-group col-lg-3">
+            <label>No. Documento</label>
+            <input type="text" class="form-control" :value="request.importer.documentNo" readonly />
+          </div>
+          <div class="form-group col-lg-12">
+            <label>Dirección</label>
+            <textarea class="form-control no-resize" rows="5" v-text="request.importer.address" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROVEEDORES -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="providers-heading" data-toggle="collapse"
+        data-target="#providers-collapse" aria-expanded="false" aria-controls="providers-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Proveedores</button>
+        </h2>
+      </div>
+      <div id="providers-collapse" class="collapse" aria-labelledby="providers-heading" data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="table-responsive col-lg-12">
+            <table class="table table-bordered table-hover table-striped" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="text-center">Nombre</th>
+                  <th class="text-center">País</th>
+                  <th class="text-center">Dirección</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(provider, index) in request.providers" :key="index">
+                  <td>
+                    <div class="cell-centered" v-text="provider.name"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="provider.countryName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="provider.address"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FABRICANTES -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="manufacturers-heading" data-toggle="collapse"
+        data-target="#manufacturers-collapse" aria-expanded="false" aria-controls="manufacturers-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Fabricantes</button>
+        </h2>
+      </div>
+      <div id="manufacturers-collapse" class="collapse" aria-labelledby="manufacturers-heading"
+        data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="table-responsive col-lg-12">
+            <table class="table table-bordered table-hover table-striped" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="text-center">Nombre</th>
+                  <th class="text-center">País</th>
+                  <th class="text-center">Dirección</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(manufacturer, index) in request.manufacturers" :key="index">
+                  <td>
+                    <div class="cell-centered" v-text="manufacturer.name"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="manufacturer.countryName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="manufacturer.address"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="products-heading" data-toggle="collapse"
+        data-target="#products-collapse" aria-expanded="false" aria-controls="products-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Productos</button>
+        </h2>
+      </div>
+      <div id="products-collapse" class="collapse" aria-labelledby="products-heading" data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="table-responsive col-lg-12">
+            <table class="table table-bordered table-hover table-striped" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="text-center">Arancel</th>
+                  <th class="text-center">Producto</th>
+                  <th class="text-center">Marca</th>
+                  <th class="text-center">Modelo</th>
+                  <th class="text-center">Unidad</th>
+                  <th class="text-center">Cantidad</th>
+                  <th class="text-center">Valor FOB (US$)</th>
+                  <th class="text-center">Peso</th>
+                  <th class="text-center">Descripción</th>
+                  <th class="text-center">No. de Registro</th>
+                  <th class="text-center">Componente y Especificación</th>
+                  <th class="text-center">No. de Lote</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(product, index) in request.products" :key="index">
+                  <td>
+                    <div class="cell-centered" v-text="product.dutyName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.productName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.brandName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.modelName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.unitName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.quantity"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.fobAmount"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.weight"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.description"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.registerNumber"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.specification"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="product.lotNumber"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTOS -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="documents-heading" data-toggle="collapse"
+        data-target="#documents-collapse" aria-expanded="false" aria-controls="documents-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Documentos</button>
+        </h2>
+      </div>
+      <div id="documents-collapse" class="collapse" aria-labelledby="documents-heading" data-parent="#mainAccordion">
+        <div class="card-body">
+          <ul class="list-group">
+            <!-- TODO: Change fake data to real -->
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              FAC-001.pdf
+              <a href="javascript:void(0)" class="badge badge-primary badge-pill" title="Ver Documento">
+                <i class="fa fa-eye"></i>
+              </a>
+            </li>
+            <!--  -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORIAL DE APROBACIONES -->
+    <div class="card">
+      <div class="card-header p-0 cursor-pointer" id="approve-history-heading" data-toggle="collapse"
+        data-target="#approve-history-collapse" aria-expanded="false" aria-controls="approve-history-collapse">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">Historial de Aprobaciones</button>
+        </h2>
+      </div>
+      <div id="approve-history-collapse" class="collapse" aria-labelledby="approve-history-heading"
+        data-parent="#mainAccordion">
+        <div class="card-body row">
+          <div class="table-responsive col-lg-12">
+            <table class="table table-bordered table-hover table-striped" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="text-center">Fecha de Aprobación</th>
+                  <th class="text-center">Organismo</th>
+                  <th class="text-center">Realizado Por</th>
+                  <th class="text-center">Comentario</th>
+                  <th class="text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(approval, index) in request.approvals" :key="index">
+                  <td>
+                    <div class="cell-centered">{{ approval.approvalDate | formatDate('DD/MM/YYYY hh:mm:ss') }}</div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="approval.assignedOrganismName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="approval.assignedMemberName"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="approval.comment"></div>
+                  </td>
+                  <td>
+                    <div class="cell-centered" v-text="approval.statusName"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTAS -->
+    <div class="card" v-for="(tpe, i) in noteTypes">
+      <div class="card-header p-0 cursor-pointer" :id="'request-note-heading'+tpe.id" data-toggle="collapse" :data-target="'#request-note-collapse'+tpe.id" aria-expanded="false" :aria-controls="'request-note-collapse'+tpe.id">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button">{{tpe.title}}</button>
+        </h2>
+      </div>
+      <div :id="'request-note-collapse'+tpe.id" class="collapse" :aria-labelledby="'request-note-heading'+tpe.id" data-parent="#mainAccordion">          
+        <div class="card-body row">
+            <NoteEditor :requestId="request.id" :typeId="tpe.id" :notes="notesList.filter(item => item.typeId == tpe.id)" @onAddNote="onAddNote" @onDelete="onDeleteNote" @onSave="onSaveNote"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

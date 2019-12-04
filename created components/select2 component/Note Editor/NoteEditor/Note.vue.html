@@ -1,0 +1,12 @@
+<div class="quote-container">
+    <i class="pin"></i>
+    <blockquote class="note yellow">
+        <p contenteditable class="editor-text" style="min-height: 50px;margin:0" v-text="text"></p>
+        <div class="author" style="margin: 0;">
+            <cite>Creado por: ({{createdByName}}: {{createdDate | formatDate}})</cite>
+            <cite>Actualizado por: ({{updatedByName}}:{{updatedDate | formatDate}})</cite>
+            <button class="btn btn-outline-danger btn-sm" @click="onDelete"><i class="far fa-trash-alt"></i></button>
+            <button class="btn btn-outline-success btn-sm" @click="onSave"><i class="fas fa-save"></i></button>
+        </div>
+    </blockquote>
+</div>

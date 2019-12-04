@@ -1,0 +1,17 @@
+<div style="width: 100%;">
+    <Note v-for="(n,i) in notes" :key="i" v-bind="n" :noteId="n.id" @onDelete="onDelete" @onSave="onSave"/>    
+    <div class="col-sm-12" style="text-align: right; margin-top: 20px;">
+        <button class="btn btn-outline-success" @click="addNote"><i class="fas fa-plus-square"></i></button>
+    </div>
+    <ConfirmDeleteModal :show="isShowConfirmDelete">
+        <!-- TODO: i18n-->
+        <template slot="modal-body">
+            Está seguro de eliminar la nota ?
+        </template>
+        <template slot="modal-footer">
+            <!-- TODO: i18n-->
+            <button class="btn btn-outline-danger btn-sm" @click="confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</button>
+            <button class="btn btn-outline-warning btn-sm" @click="cancelDeleteNote">Cancelar</button>            
+        </template>
+    </ConfirmDeleteModal>
+</div>

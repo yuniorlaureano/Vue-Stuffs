@@ -1,0 +1,14 @@
+<div :class="inputgrandparentclasses">
+    <label :class="inputlabelclasses">{{label}}</label>
+        <div :class="inputparentclasses">
+            <VueMultiselect
+                :name="name" 
+                :multiple="multiple" 
+                :class="inputclasses"
+                :track-by="trackby"
+                :label="caption"
+                :options="optionsModel"
+                v-model="dummy"
+                @input="onInput"/>
+        </div>
+</div>
